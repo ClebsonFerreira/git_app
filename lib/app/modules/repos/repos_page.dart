@@ -27,7 +27,7 @@ class _ReposPageState extends ModularState<ReposPage, ReposController> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
-        title: Text("Lista de repositorios"),
+        title: Text("Lista de repositorios")
       ),
       body: Observer(builder: (_) {
         return ListView.builder(
@@ -37,11 +37,44 @@ class _ReposPageState extends ModularState<ReposPage, ReposController> {
                 return CircularProgressIndicator();
               } else {
                 return ListTile(
-                  title: Text(
-                    "${controller.repos[index]}",
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                );
+                    leading:
+                        Image.network(controller.repos[index].owner.avatarUrl),
+                    title: Text(
+                      "${controller.repos[index].name}",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Row(
+                      children: <Widget>[
+                        Row(
+                          children: <Widget>[
+                            Icon(Icons.star, color: Colors.yellow),
+                            Text(
+                              "${controller.repos[index].stargazersCount}",
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Row(
+                          children: <Widget>[
+                            Icon(Icons.usb),
+                            Text(
+                              "${controller.repos[index].forks}",
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    trailing: controller.repos[index].forks >= 100
+                        ? Icon(
+                            Icons.check_circle,
+                            color: Colors.green,
+                          )
+                        : Icon(
+                            Icons.remove_circle_outline,
+                            color: Colors.red,
+                          ));
               }
             });
       }),

@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:git_app/app/models/github_model.dart';
 import 'package:mobx/mobx.dart';
 
 part 'repos_controller.g.dart';
@@ -13,7 +14,7 @@ abstract class _ReposControllerBase with Store {
   String value = '';
 
   @observable
-  ObservableList<String> repos = <String>[].asObservable();
+  ObservableList<GitHubModel> repos = <GitHubModel>[].asObservable();
 
   @action
   void setValue(String val) {
@@ -25,11 +26,10 @@ abstract class _ReposControllerBase with Store {
     var response =
         await _dio.get("https://api.github.com/users/${value.trim()}/repos");
     if (response.statusCode != 200) {
-      print('clebson');
-      repos = <String>[].asObservable();
+      repos = <GitHubModel>[].asObservable();
     } else {
-      for (var item in response.data as List) {
-        repos.add("Nome:${item["name"]} -- Forks: ${item["forks"]} -- Estrelas : ${item["stargazers_count"]} ");
+      for (var item in  response.data ) {
+        repos.add(GitHubModel.fromJson(item));
       }
     }
   }

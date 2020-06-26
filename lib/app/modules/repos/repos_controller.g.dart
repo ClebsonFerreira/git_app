@@ -27,13 +27,13 @@ mixin _$ReposController on _ReposControllerBase, Store {
   final _$reposAtom = Atom(name: '_ReposControllerBase.repos');
 
   @override
-  ObservableList<String> get repos {
+  ObservableList<GitHubModel> get repos {
     _$reposAtom.reportRead();
     return super.repos;
   }
 
   @override
-  set repos(ObservableList<String> value) {
+  set repos(ObservableList<GitHubModel> value) {
     _$reposAtom.reportWrite(value, super.repos, () {
       super.repos = value;
     });
